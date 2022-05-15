@@ -5,6 +5,7 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 from time import sleep
+import shelve
 
 
 
@@ -36,7 +37,7 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_DOWN:
         ship.moving_down = False
 
-def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, aliens_bullets):
     """response to keyboard and mouse"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,7 +48,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             check_keyup_events(event, ship) 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y, ship, aliens, bullets)           
+            check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y, ship, aliens, bullets, aliens_bullets)           
 
 def update_screen(ai_settings, screen,stats, sb, ship, bullets, alien, play_button):
     """update image on the screen, and flip to new screen"""
@@ -158,13 +159,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
         check_high_score(stats,sb)
 
     if len(aliens) == 0:
-        # delete current bullets and create new fleet when all enemy die
-        bullets.empty()
-        ai_settings.increase_speed()
-        stats.level += 1
-        sb.prep_level()
-        
-        create_fleet(ai_settings, screen, ship, aliens)
+        start_new_level(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
 def ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets):
     """response to ship hit by alien"""
@@ -195,14 +190,14 @@ def check_alien_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets):
             ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets)
             break
 
-def check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y,ship, aliens, bullets):
+def check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y,ship, aliens, bullets, aliens_bullets):
     """start game when player click button"""
     # reset stats
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
-        start_newGame(ai_settings, screen, stats, sb, ship, aliens, bullets)
+        start_newGame(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets)
 
-def start_newGame(ai_settings, screen, stats, sb, ship, aliens, bullets):
+def start_newGame(ai_settings, screen, stats, sb, ship, aliens, bullets,aliens_bullets):
     """start new game"""
     stats.reset_stats()
     stats.game_active = True
@@ -215,7 +210,7 @@ def start_newGame(ai_settings, screen, stats, sb, ship, aliens, bullets):
     # clear alien and bullets
     aliens.empty()
     bullets.empty()
-
+    aliens_bullets.empty()
     # reset settings
     ai_settings.initialize_dynamic_settings()
 
@@ -230,4 +225,19 @@ def check_high_score(stats, sb):
     """check if current score the highest score"""
     if stats.score > stats.high_score:
         stats.high_score = stats.score
+        write_high_score(stats)
         sb.prep_high_score()
+
+def write_high_score(stats):
+    """write high score into file"""
+    with shelve.open('data/score.txt') as d:
+        d['score'] = stats.high_score
+
+def start_new_level(ai_settings, screen, stats, sb, ship, aliens, bullets):
+    # delete current bullets and create new fleet when all enemy die
+    bullets.empty()
+    ai_settings.increase_speed()
+    stats.level += 1
+    sb.prep_level()
+        
+    create_fleet(ai_settings, screen, ship, aliens)

@@ -20,6 +20,10 @@ class Settings():
         # alien 
         self.alien_speed = 0.3
         self.fleet_drop_speed = 30
+        # alien_attack
+        self.alien_attack_frequncy = 2
+        self.alien_attack_posibility = 50
+        self.alien_attack_speed = 1
         # fleet_direction of 1 represents right; -1 represents left
         self.fleet_direction = 1
 

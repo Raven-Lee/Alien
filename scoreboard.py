@@ -16,11 +16,15 @@ class Scoreboard():
         self.text_color = (51, 51, 51)
         self.font = pygame.font.SysFont(None, 48)
 
-        # prepare score image
+        self.prep_image()
+
+    def prep_image(self):
+        """render image for all elements"""
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
         self.prep_ships()
+
 
     def prep_score(self):
         """render score to image"""

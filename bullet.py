@@ -8,7 +8,6 @@ class Bullet(Sprite):
         super(Bullet, self).__init__()
         self.screen = screen
 
-
         # init a rect for bullet at (0,0), then move to the right place
         self.rect = pygame.Rect(0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
         self.rect.centerx = ship.rect.centerx

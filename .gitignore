@@ -1,0 +1,11 @@
+data/score.txt.dat
+__pycache__/alien.cpython-37.pyc
+__pycache__/bullet.cpython-37.pyc
+__pycache__/button.cpython-37.pyc
+__pycache__/game_function.cpython-37.pyc
+__pycache__/game_stats.cpython-37.pyc
+__pycache__/scoreboard.cpython-37.pyc
+__pycache__/setting.cpython-37.pyc
+__pycache__/ship.cpython-37.pyc
+data/score.txt.bak
+data/score.txt.dir
