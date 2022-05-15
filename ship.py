@@ -34,6 +34,7 @@ class Ship(Sprite):
         self.screen.blit(self.image, self.rect)
     
     def update(self):
+        """move when change moving flg and ship not touching the edge of the screen"""
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_setting.ship_speed_factor
         if self.moving_left and self.rect.left > 0:

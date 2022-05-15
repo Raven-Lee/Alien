@@ -18,12 +18,16 @@ class Settings():
         self.bullet_allowed = 3
         self.bullet_penatration = True
         # alien 
-        self.alien_speed = 0.3
+        self.alien_speed = 0.15
         self.fleet_drop_speed = 30
         # alien_attack
         self.alien_attack_frequncy = 2
-        self.alien_attack_posibility = 50
-        self.alien_attack_speed = 1
+        self.alien_attack_posibility = 90
+        self.alien_attack_speed = 0.5
+        self.alien_attack_width = 3
+        self.alien_attack_height =15
+        self.alien_attack_color = (255, 64, 64)
+        self.alien_attack_allowed = 10
         # fleet_direction of 1 represents right; -1 represents left
         self.fleet_direction = 1
 

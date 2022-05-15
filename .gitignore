@@ -9,3 +9,5 @@ __pycache__/setting.cpython-37.pyc
 __pycache__/ship.cpython-37.pyc
 data/score.txt.bak
 data/score.txt.dir
+__pycache__/alien_bullet.cpython-37.pyc
+__pycache__/allien_attack.cpython-37.pyc

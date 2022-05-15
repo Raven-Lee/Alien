@@ -10,9 +10,7 @@ from pygame.sprite import Group
 from button import Button
 from scoreboard import Scoreboard
 
-# Done: write highest point into file before sys.exit()
-# Done: refactor check_bullet_alien_collision(), create start_new_level()
-# Done: refactor Scoreboard.__init__(), create prep_images()
+
 # TODO: add shooting aboility for allien, add shield for ship
 # TODO: add sound effect with pygame.mixer, like explosion sound and shooting sound
 
@@ -47,8 +45,9 @@ def run_game():
             ship.update()
             gf.update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets)
             gf.update_bullet(ai_settings, screen, stats, sb, ship, aliens, bullets) 
-        
-        gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button)
+            gf.alien_fire(ai_settings, screen, ship, aliens, bullets, aliens_bullets)
+            gf.update_aliens_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button, aliens_bullets)
         
 
 run_game()
