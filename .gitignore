@@ -11,3 +11,4 @@ data/score.txt.bak
 data/score.txt.dir
 __pycache__/alien_bullet.cpython-37.pyc
 __pycache__/allien_attack.cpython-37.pyc
+__pycache__/shield.cpython-37.pyc

@@ -22,4 +22,4 @@ class GameStats():
         score_file = 'data/score.txt'
         with shelve.open(score_file) as d:
             return d['score']
-        
+       

@@ -52,7 +52,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, sb, play_button, mouse_x, mouse_y, ship, aliens, bullets, aliens_bullets)           
 
-def update_screen(ai_settings, screen,stats, sb, ship, bullets, alien, play_button, aliens_bullets):
+def update_screen(ai_settings, screen,stats, sb, ship, bullets, alien, play_button, aliens_bullets, shield):
     """update image on the screen, and flip to new screen"""
     # update screen element
     screen.fill(ai_settings.bg_color)
@@ -80,14 +80,14 @@ def update_bullet(ai_settings, screen, stats, sb, ship, aliens, bullets):
             bullets.remove(bullet)
     check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets)
     
-def update_aliens_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets):
+def update_aliens_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets, shield):
     """update aliens's bullets location, delete vanished bullets"""
     aliens_bullets.update()
     #delete vanished bullets
     for aliens_bullet in aliens_bullets.copy():
         if aliens_bullet.rect.top >= ai_settings.screen_height:
             aliens_bullets.remove(aliens_bullet)
-    
+    check_shield_bullet_collision(ai_settings, ship, shield, aliens_bullets)
     check_ship_bullte_collision(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets)
 
 def fire_bullet(bullets,ai_settings,screen, ship):
@@ -136,14 +136,14 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     number_rows = int(available_space_y / (2 * alien_height))
     return number_rows-3
 
-def update_aliens(ai_settings,stats, screen, sb, ship, aliens, bullets):
+def update_aliens(ai_settings,stats, screen, sb, ship, aliens, bullets, aliens_bullets):
     """update the position of aliens"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # check collision of alien and ship
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets)
+        ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets, aliens_bullets)
 
     check_alien_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets)
 
@@ -270,3 +270,16 @@ def start_new_level(ai_settings, screen, stats, sb, ship, aliens, bullets):
     sb.prep_level()
         
     create_fleet(ai_settings, screen, ship, aliens)
+
+def check_shield_bullet_collision(ai_settings, ship, shield, aliens_bullets):
+    """respond to shield hit by aliens's bullet"""
+    collision = pygame.sprite.spritecollideany(shield, aliens_bullets)
+    if collision:
+        shield_hit(ai_settings,shield, ship, aliens_bullets)
+
+def shield_hit(ai_settings, shield, ship, aliens_bullets):
+    """respond to shield hit by aliens's bullet"""
+    if shield.defense > 0:
+        shield.defense -= 1
+    else:
+        shield.update(ship)

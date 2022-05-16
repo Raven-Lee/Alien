@@ -10,6 +10,10 @@ class Settings():
         # ship
         self.ship_speed_factor = 1
         self.ship_limit = 3
+        # sheild
+        self.shield_width = 50
+        self.shield_height = 5
+        self.shield_color = (156, 220, 254)
         # bullet
         self.bullet_speed = 1
         self.bullet_width = 3
@@ -27,7 +31,7 @@ class Settings():
         self.alien_attack_width = 3
         self.alien_attack_height =15
         self.alien_attack_color = (255, 64, 64)
-        self.alien_attack_allowed = 10
+        self.alien_attack_allowed = 5
         # fleet_direction of 1 represents right; -1 represents left
         self.fleet_direction = 1
 
@@ -57,3 +61,5 @@ class Settings():
         self.alien_speed *= self.speedup_scale
 
         self.alien_points += 5
+        self.alien_attack_speed *= self.speedup_scale
+        self.alien_attack_allowed += 1

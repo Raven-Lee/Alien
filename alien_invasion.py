@@ -9,6 +9,7 @@ import game_function as gf
 from pygame.sprite import Group
 from button import Button
 from scoreboard import Scoreboard
+from shield import Shield
 
 
 # TODO: add shooting aboility for allien, add shield for ship
@@ -30,6 +31,7 @@ def run_game():
     sb = Scoreboard(ai_settings, screen, stats)
     # create new ship
     ship = Ship(screen=screen,ai_setting=ai_settings)
+    shield = Shield(ai_settings, screen, ship)
     # create bullet
     bullets = Group()
     aliens_bullets = Group()
@@ -43,11 +45,11 @@ def run_game():
         
         if stats.game_active:
             ship.update()
-            gf.update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets, aliens_bullets)
             gf.update_bullet(ai_settings, screen, stats, sb, ship, aliens, bullets) 
             gf.alien_fire(ai_settings, screen, ship, aliens, bullets, aliens_bullets)
-            gf.update_aliens_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets)
-        gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button, aliens_bullets)
+            gf.update_aliens_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets, aliens_bullets, shield)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, bullets, aliens, play_button, aliens_bullets, shield)
         
 
 run_game()
